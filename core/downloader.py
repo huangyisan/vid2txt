@@ -1,6 +1,4 @@
 import yt_dlp
-import json
-
 # 视频下载器
 
 
@@ -22,12 +20,12 @@ class VideoDownloader:
             ydl.download([url])
 
     # 音频下载
-    def download_audio(self, selected_row: int):
+    def download_audio(self, selected_row: int, outtmpl: str):
         ydl_opts = {'format': 'bestaudio/best',
                     'playlist_items': f'{selected_row+1}',
                     'postprocessors': [{'key': 'FFmpegExtractAudio',
                                         'nopostoverwrites': False,
                                         'preferredcodec': 'best',
-                                        'preferredquality': '5'}]}
+                                        'preferredquality': '5'}], 'outtmpl': {'default': f'{outtmpl}'}}
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             ydl.download([self.video_url])
