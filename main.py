@@ -4,4 +4,5 @@ if __name__ == "__main__":
     v = VideoDownloader()
     app = VideoDownloaderApp(downloader=v)
     demo = app.create()
-    demo.launch()
+    # 9980端口
+    demo.launch(server_port=9980)

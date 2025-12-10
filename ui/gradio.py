@@ -10,7 +10,6 @@ class VideoDownloaderApp:
         self.downloader = VideoDownloader()
         self.aiSubtitle = SubtitleConverter()
         self.video_info = None
-        self.download_url = None
 
     def parse_video_info(self, info: dict):
         video_info = []
@@ -48,7 +47,7 @@ class VideoDownloaderApp:
             return gr.Error("请选择要下载的音频")
         self.downloader.download_audio(selected_row_state, outtmpl)
         return os.path.join(
-            "/Users/admin/Desktop/github/myself/vid2txt", outtmpl)
+            os.getcwd(), outtmpl)
 
         # subtitle_url = selected_row.get("title", "")
         # audio_url = selected_row.get("audio_url", "")
