@@ -12,6 +12,7 @@ def parse_video_info(info: dict):
                 {
                     "title": entry.get("title"),
                     "uploader": entry.get("uploader"),
+                    "video_id": entry.get("id"),
                 }
             )
 
@@ -20,11 +21,12 @@ def parse_video_info(info: dict):
             {
                 "title": info.get("title"),
                 "uploader": info.get("uploader"),
+                "video_id": info.get("id"),
             }
         )
     print(video_info)
     res = pd.DataFrame(video_info)
-    res.columns = ["标题", "上传者"]
+    res.columns = ["标题", "上传者", "视频ID"]
     print(res)
     return res
 
