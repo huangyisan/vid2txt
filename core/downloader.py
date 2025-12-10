@@ -21,6 +21,7 @@ class VideoDownloader:
             ydl.download([url])
 
     # 音频下载
-    def download_audio(self, url: str):
+    def download_audio(self, selected_row: dict, url: str):
+        print(selected_row)
         with yt_dlp.YoutubeDL({'quiet': True}) as ydl:
             ydl.download([url])
