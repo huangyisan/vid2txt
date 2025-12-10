@@ -7,4 +7,7 @@ class SubtitleConverter:
 
     def convert_subtitle(self, audio_path: str):
         result = self.model.transcribe(audio_path)
-        return result["text"]
+        text_list = [i["text"] for i in result["segments"]]
+        # text_list 去重
+        text_list = list(set(text_list))
+        return "\n".join(text_list)

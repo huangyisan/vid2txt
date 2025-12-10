@@ -45,4 +45,4 @@ ENV/
 .venv
 
 .gradio
-.m4a
+*.m4a
