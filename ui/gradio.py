@@ -38,10 +38,11 @@ class VideoDownloaderApp:
         titles = parse_video_info(info)
         return titles
 
-    def download_audio(self, selected_row_state: dict):
+    def download_audio(self, selected_row_state: int):
         print(selected_row_state)
-        if not selected_row_state:
+        if selected_row_state is None or selected_row_state == "":
             return gr.Error("请选择要下载的音频")
+        self.downloader.download_audio(selected_row_state)
         return selected_row_state
         # subtitle_url = selected_row.get("title", "")
         # audio_url = selected_row.get("audio_url", "")
@@ -56,6 +57,7 @@ class VideoDownloaderApp:
 
                         支持查看视频信息，下载字幕和音频。
                         """)
+            # 内容排版
             with gr.Column():
                 url_input = gr.Textbox(
                     label="视频URL",
@@ -76,6 +78,8 @@ class VideoDownloaderApp:
                 selected = gr.Number(label="选中索引", visible=True)
                 selected_row = gr.Textbox(label="选中内容", visible=True)
                 download_to_index = gr.Number(label="下载到索引", visible=True)
+
+            # 事件定义
 
             def get_selected_index(evt: gr.SelectData):
                 return evt.index[0]
