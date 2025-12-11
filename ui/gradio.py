@@ -41,18 +41,13 @@ class VideoDownloaderApp:
         self.parse_video_info(info)
         return self.video_info
 
-    def download_audio(self, selected_row_state: int):
-        outtmpl = f"{self.video_info.iloc[selected_row_state]['视频ID']}.m4a"
+    def download_audio(self, selected_row_state: int, audio_tybe: str):
+        outtmpl = f"{self.video_info.iloc[selected_row_state]['标题']}-{self.video_info.iloc[selected_row_state]['视频ID']}.{audio_tybe}"
         if selected_row_state is None or selected_row_state == "":
             return gr.Error("请选择要下载的音频")
-        self.downloader.download_audio(selected_row_state, outtmpl)
+        self.downloader.download_audio(selected_row_state, outtmpl, audio_tybe)
         return os.path.join(
             os.getcwd(), outtmpl)
-
-        # subtitle_url = selected_row.get("title", "")
-        # audio_url = selected_row.get("audio_url", "")
-        # title = selected_row.get("title", "")
-        # self.downloader.download_audio(selected_row)
 
     def get_ai_subtitle(self, download_output: str):
         subtitle = self.aiSubtitle.convert_subtitle(download_output)
@@ -82,9 +77,12 @@ class VideoDownloaderApp:
                     headers=["标题", "上传者", "视频ID"],
                     datatype=["str", "str", "str"],
                 )
+                audio_tybe = gr.Radio(label="音频格式", choices=[
+                    "m4a", "mp3"], value="m4a")
                 download_btn = gr.Button("📥 下载选中项", variant="primary")
+
                 download_output = gr.File(label="下载结果", visible=True)
-                get_ai_subtitle_btn = gr.Button("📥 获取AI字幕", variant="primary")
+                get_ai_subtitle_btn = gr.Button("📥 AI识别字幕", variant="primary")
                 ai_subtitle_output = gr.Textbox(label="AI字幕", visible=True)
                 selected = gr.Number(label="选中索引", visible=True)
 
@@ -105,6 +103,7 @@ class VideoDownloaderApp:
                 inputs=None,
                 outputs=[selected_row_state]
             )
+
             # 显示索引用于调试
             info_output.select(
                 fn=get_selected_index,
@@ -115,7 +114,7 @@ class VideoDownloaderApp:
             # 下载按钮
             download_btn.click(
                 fn=self.download_audio,
-                inputs=[selected_row_state],
+                inputs=[selected_row_state, audio_tybe],
                 outputs=download_output
             )
 

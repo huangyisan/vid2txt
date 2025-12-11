@@ -13,8 +13,9 @@ class SubtitleConverter:
 
     def convert_subtitle(self, audio_path: str):
         result = self.model.transcribe(audio_path)
-        write_to_file(json.dumps(result), "result.json")
         text_list = [i["text"] for i in result["segments"]]
         # text_list 去重
         text_list_uniq = sorted(list(set(text_list)), key=text_list.index)
-        return "\n".join(text_list_uniq)
+        content = "\n".join(text_list_uniq)
+        write_to_file(content, f"{audio_path}.txt")
+        return content

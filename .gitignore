@@ -46,3 +46,4 @@ ENV/
 
 .gradio
 *.m4a
+*.mp3
