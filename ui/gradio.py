@@ -83,7 +83,8 @@ class VideoDownloaderApp:
 
                 download_output = gr.File(label="下载结果", visible=True)
                 get_ai_subtitle_btn = gr.Button("📥 AI识别字幕", variant="primary")
-                ai_subtitle_output = gr.Textbox(label="AI字幕", visible=True)
+                ai_subtitle_output = gr.Textbox(
+                    label="AI字幕", visible=True, show_label=True, buttons=["copy"])
                 selected = gr.Number(label="选中索引", visible=True)
 
             # 事件定义
